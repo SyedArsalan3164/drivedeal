@@ -39,7 +39,7 @@ const subscribeNewsletter = async (req, res) => {
               <p style="color: #475569; line-height: 1.6;">You'll be the first to know when exciting new vehicles hit our showroom!</p>
               <br>
               <div style="text-align: center; margin-top: 30px;">
-                <a href="http://localhost:5000/api/newsletter/unsubscribe?email=${subscriber.email}" style="color: #64748b; font-size: 13px; text-decoration: underline;">Unsubscribe from DriveDeal Newsletter</a>
+                <a href="${process.env.APP_URL || 'http://localhost:5000'}/api/newsletter/unsubscribe?email=${subscriber.email}" style="color: #64748b; font-size: 13px; text-decoration: underline;">Unsubscribe from DriveDeal Newsletter</a>
               </div>
             </div>
           </div>

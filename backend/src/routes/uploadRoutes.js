@@ -1,9 +1,16 @@
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
 const { protect, admin } = require('../middleware/authMiddleware');
 
 const router = express.Router();
+
+// Ensure the uploads directory exists on disk for cloud deployments
+const uploadDir = path.join(__dirname, '../../uploads');
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
@@ -40,10 +47,12 @@ router.post('/', protect, admin, upload.array('images', 10), (req, res) => {
   }
 
   // Construct URLs to return
-  const protocol = req.protocol;
+  const protocol = req.get('x-forwarded-proto') || req.protocol;
   const host = req.get('host');
+  const baseUrl = process.env.APP_URL || `${protocol}://${host}`;
+  
   // req.file.path might include backslashes on Windows, so we replace them
-  const urls = req.files.map((file) => `http://localhost:5000/${file.path.replace(/\\/g, '/')}`);
+  const urls = req.files.map((file) => `${baseUrl}/${file.path.replace(/\\/g, '/')}`);
   
   res.send({ urls });
 });
