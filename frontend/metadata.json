@@ -1,0 +1,5 @@
+{
+  "name": "DriveDeal",
+  "description": "A used car marketplace platform where users can browse available cars and contact the dealer to purchase them.",
+  "requestFramePermissions": []
+}
