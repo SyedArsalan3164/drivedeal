@@ -102,7 +102,7 @@ export const Home = () => {
             <div className="text-center py-20 bg-slate-50 rounded-2xl border border-slate-200">
               <Car className="h-12 w-12 mx-auto text-slate-400 mb-4" />
               <h3 className="text-xl font-bold text-slate-900 mb-2">Inventory Updating</h3>
-              <p className="text-slate-500 max-w-md mx-auto">We are currently updating our featured collection. Please check back shortly.</p>
+              <p className="text-slate-500 max-w-md mx-auto">Please wait while we refresh our featured collection. This will only take a moment.</p>
             </div>
           )}
         </div>
