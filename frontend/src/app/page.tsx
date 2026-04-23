@@ -3,7 +3,7 @@ import { Home } from '../views/Home';
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
 
 export default async function Page() {
-  let initialCars = [];
+  let initialCars: any[] = [];
   try {
     const res = await fetch(`${API_URL}/cars`, { cache: 'no-store' });
     const data = await res.json();
