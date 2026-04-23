@@ -6,8 +6,9 @@ import { useData } from '../lib/DataContext';
 import { useAuth } from '../lib/AuthContext';
 import { CarCard } from '../components/CarCard';
 
-export const Home = () => {
-  const { cars } = useData();
+export const Home = ({ initialCars = [] }: { initialCars?: any[] }) => {
+  const { cars: contextCars } = useData();
+  const cars = initialCars.length > 0 ? initialCars : contextCars;
   const { role } = useAuth();
   const featuredCars = cars.slice(0, 3);
 

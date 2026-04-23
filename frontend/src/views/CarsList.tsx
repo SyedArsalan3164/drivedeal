@@ -4,8 +4,9 @@ import { Search } from 'lucide-react';
 import { useData } from '../lib/DataContext';
 import { CarCard } from '../components/CarCard';
 
-export const CarsList = () => {
-  const { cars } = useData();
+export const CarsList = ({ initialCars = [] }: { initialCars?: any[] }) => {
+  const { cars: contextCars } = useData();
+  const cars = initialCars.length > 0 ? initialCars : contextCars;
   const [searchTerm, setSearchTerm] = useState('');
 
   const filteredCars = useMemo(() => {

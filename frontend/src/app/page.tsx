@@ -1,6 +1,16 @@
 import { Home } from '../views/Home';
 
-export default function Page() {
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+
+export default async function Page() {
+  let initialCars = [];
+  try {
+    const res = await fetch(`${API_URL}/cars`, { cache: 'no-store' });
+    initialCars = await res.json();
+  } catch (error) {
+    console.error('Error fetching cars for Home SSR:', error);
+  }
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
@@ -47,7 +57,7 @@ export default function Page() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Home />
+      <Home initialCars={initialCars} />
     </>
   );
 }
