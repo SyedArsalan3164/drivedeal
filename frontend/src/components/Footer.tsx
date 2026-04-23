@@ -19,7 +19,7 @@ export const Footer = () => {
 
     setLoading(true);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'}/newsletter/subscribe`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/newsletter/subscribe`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email })
@@ -97,7 +97,7 @@ export const Footer = () => {
               
               <li className="flex items-center gap-3">
                 <Mail className="h-5 w-5 text-blue-500 flex-shrink-0" />
-                <span className="text-slate-400">{process.env.NEXT_PUBLIC_DEALER_EMAIL || 'contact@drivedeal.com'}</span>
+                <span className="text-slate-400">{process.env.NEXT_PUBLIC_DEALER_EMAIL || 'drivedealsa@gmail.com'}</span>
               </li>
             </ul>
           </div>
