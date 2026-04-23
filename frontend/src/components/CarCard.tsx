@@ -1,5 +1,6 @@
+"use client";
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { MapPin, Settings, Fuel, Gauge, ArrowRight } from 'lucide-react';
 import { Car } from '../data/mockData';
 
@@ -57,7 +58,7 @@ export const CarCard: React.FC<CarCardProps> = ({ car }) => {
         </div>
         
         <Link 
-          to={`/car/${car.id}`}
+          href={`/car/${car.id}`}
           className="flex items-center justify-center gap-2 w-full py-3 bg-slate-50 text-blue-600 font-medium rounded-xl hover:bg-blue-50 transition-colors mt-auto border border-slate-100"
         >
           View Details
@@ -67,3 +68,5 @@ export const CarCard: React.FC<CarCardProps> = ({ car }) => {
     </div>
   );
 };
+
+

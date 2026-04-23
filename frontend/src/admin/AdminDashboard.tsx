@@ -1,17 +1,19 @@
+﻿"use client";
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Car, Users, DollarSign, TrendingUp, PlusCircle, LogOut } from 'lucide-react';
-import { useData } from '../pages/DataContext';
-import { useAuth } from '../pages/AuthContext';
+import { useData } from '../lib/DataContext';
+import { useAuth } from '../lib/AuthContext';
 
 export const AdminDashboard = () => {
   const { cars, requests } = useData();
   const { logout } = useAuth();
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const handleLogout = () => {
     logout();
-    navigate('/');
+    router.push('/');
   };
 
   const totalCars = cars.length;
@@ -110,7 +112,7 @@ export const AdminDashboard = () => {
             <h2 className="text-lg font-bold text-slate-900">Recent Requests</h2>
 
             <Link
-              to="/admin/requests"
+              href="/admin/requests"
               className="text-sm font-medium text-blue-600 hover:text-blue-700"
             >
               View All
@@ -173,7 +175,7 @@ export const AdminDashboard = () => {
 
 
             <Link
-              to="/admin/add-car"
+              href="/admin/add-car"
               className="flex flex-col items-center justify-center p-6 bg-slate-50 rounded-xl border border-slate-200 hover:border-blue-300 hover:shadow-md transition-all group"
             >
               <div className="bg-white p-3 rounded-full shadow-sm mb-3 group-hover:scale-110 transition-transform">
@@ -187,7 +189,7 @@ export const AdminDashboard = () => {
 
 
             <Link
-              to="/admin/manage"
+              href="/admin/manage"
               className="flex flex-col items-center justify-center p-6 bg-slate-50 rounded-xl border border-slate-200 hover:border-blue-300 hover:shadow-md transition-all group"
             >
               <div className="bg-white p-3 rounded-full shadow-sm mb-3 group-hover:scale-110 transition-transform">
@@ -222,3 +224,5 @@ export const AdminDashboard = () => {
     </div>
   );
 };
+
+

@@ -1,7 +1,8 @@
+"use client";
 import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Car, Facebook, Twitter, Instagram } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { useAuth } from '../pages/AuthContext';
+import Link from 'next/link';
+import { useAuth } from '../lib/AuthContext';
 import toast from 'react-hot-toast';
 
 export const Footer = () => {
@@ -18,7 +19,7 @@ export const Footer = () => {
 
     setLoading(true);
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/newsletter/subscribe`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'}/newsletter/subscribe`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email })
@@ -46,7 +47,7 @@ export const Footer = () => {
 
 
           <div className="space-y-6">
-            <Link to="/" className="flex items-center gap-2">
+            <Link href="/" className="flex items-center gap-2">
               <div className="p-2 rounded-lg bg-blue-600 text-white">
                 <Car className="h-6 w-6" />
               </div>
@@ -74,12 +75,12 @@ export const Footer = () => {
           <div>
             <h3 className="text-white font-bold text-lg mb-6">Quick Links</h3>
             <ul className="space-y-4 text-sm">
-              <li><Link to="/" className="text-slate-400 hover:text-blue-400 transition-colors">Home</Link></li>
-              <li><Link to="/cars" className="text-slate-400 hover:text-blue-400 transition-colors">Inventory</Link></li>
+              <li><Link href="/" className="text-slate-400 hover:text-blue-400 transition-colors">Home</Link></li>
+              <li><Link href="/cars" className="text-slate-400 hover:text-blue-400 transition-colors">Inventory</Link></li>
               {!role && (
                 <>
-                  <li><Link to="/login" className="text-slate-400 hover:text-blue-400 transition-colors">Client Portal</Link></li>
-                  <li><Link to="/signup" className="text-slate-400 hover:text-blue-400 transition-colors">Register</Link></li>
+                  <li><Link href="/login" className="text-slate-400 hover:text-blue-400 transition-colors">Client Portal</Link></li>
+                  <li><Link href="/signup" className="text-slate-400 hover:text-blue-400 transition-colors">Register</Link></li>
                 </>
               )}
             </ul>
@@ -96,7 +97,7 @@ export const Footer = () => {
               
               <li className="flex items-center gap-3">
                 <Mail className="h-5 w-5 text-blue-500 flex-shrink-0" />
-                <span className="text-slate-400">{import.meta.env.VITE_DEALER_EMAIL || 'contact@drivedeal.com'}</span>
+                <span className="text-slate-400">{process.env.NEXT_PUBLIC_DEALER_EMAIL || 'contact@drivedeal.com'}</span>
               </li>
             </ul>
           </div>
@@ -138,3 +139,5 @@ export const Footer = () => {
     </footer>
   );
 };
+
+

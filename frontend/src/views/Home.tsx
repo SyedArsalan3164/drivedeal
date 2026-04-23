@@ -1,8 +1,9 @@
+"use client";
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { ArrowRight, ShieldCheck, Clock, Award, Search, SlidersHorizontal, Car } from 'lucide-react';
-import { useData } from './DataContext';
-import { useAuth } from './AuthContext';
+import { useData } from '../lib/DataContext';
+import { useAuth } from '../lib/AuthContext';
 import { CarCard } from '../components/CarCard';
 
 export const Home = () => {
@@ -31,17 +32,17 @@ export const Home = () => {
           </div>
           
           <h1 className="text-5xl md:text-7xl font-bold text-slate-900 tracking-tight mb-6">
-            Find Your Next <br className="hidden md:block" />
-            <span className="text-blue-600">Perfect Drive</span>
+            Premium <span className="text-blue-600">Used Cars</span> <br className="hidden md:block" />
+            in Karnataka & India
           </h1>
           
           <p className="text-lg md:text-xl text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed">
-            Browse our extensive collection of verified, high-quality vehicles. We make finding and purchasing your next car simple, transparent, and enjoyable.
+            Find the best second-hand cars with DriveDeal. Browse our extensive collection of verified, high-quality vehicles across Karnataka and India. We make car buying simple, transparent, and enjoyable.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link 
-              to="/cars" 
+              href="/cars" 
               className="w-full sm:w-auto flex items-center justify-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-xl font-medium transition-all hover:bg-blue-700 hover:shadow-lg hover:-translate-y-0.5"
             >
               <Search className="h-5 w-5" />
@@ -49,7 +50,7 @@ export const Home = () => {
             </Link>
             {!role && (
               <Link 
-                to="/login" 
+                href="/login" 
                 className="w-full sm:w-auto flex items-center justify-center gap-2 bg-white text-slate-700 border border-slate-200 px-8 py-4 rounded-xl font-medium transition-all hover:bg-slate-50 hover:border-slate-300"
               >
                 Sign In / Register
@@ -87,7 +88,7 @@ export const Home = () => {
               <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Featured Vehicles</h2>
               <p className="text-slate-600 max-w-2xl">Hand-picked selection of our most popular and highly-rated cars currently available in our showroom.</p>
             </div>
-            <Link to="/cars" className="flex items-center gap-2 text-blue-600 font-medium hover:text-blue-700 transition-colors group whitespace-nowrap">
+            <Link href="/cars" className="flex items-center gap-2 text-blue-600 font-medium hover:text-blue-700 transition-colors group whitespace-nowrap">
               View All Inventory <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </div>
@@ -112,8 +113,8 @@ export const Home = () => {
       <section className="py-24 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Why Choose DriveDeal</h2>
-            <p className="text-slate-600 max-w-2xl mx-auto">We provide a seamless, transparent, and secure car buying experience designed around your needs.</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Why Choose DriveDeal for Used Cars</h2>
+            <p className="text-slate-600 max-w-2xl mx-auto">We provide the most trusted second-hand car buying experience in India, designed with transparency and security at its core.</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -151,7 +152,7 @@ export const Home = () => {
             <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to find your dream car?</h2>
             <p className="text-blue-100 text-lg mb-10 max-w-2xl mx-auto">Join thousands of satisfied customers who found their perfect vehicle through DriveDeal.</p>
             <Link 
-              to="/signup" 
+              href="/signup" 
               className="inline-flex items-center gap-2 bg-white text-blue-600 px-8 py-4 rounded-xl font-bold transition-all hover:bg-blue-50 hover:shadow-lg hover:-translate-y-0.5"
             >
               Create an Account
@@ -163,3 +164,5 @@ export const Home = () => {
     </div>
   );
 };
+
+

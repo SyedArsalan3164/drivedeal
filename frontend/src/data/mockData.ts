@@ -1,3 +1,4 @@
+"use client";
 export interface Car {
   id: string;
   brand: string;
@@ -27,3 +28,5 @@ export interface ClientRequest {
 export const mockCars: Car[] = [];
 
 export const mockRequests: ClientRequest[] = [];
+
+

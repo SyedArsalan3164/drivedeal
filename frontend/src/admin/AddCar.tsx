@@ -1,11 +1,12 @@
+﻿"use client";
 import React, { useState } from 'react';
 import { Upload, Car, MapPin, DollarSign, Calendar, Settings, Fuel, Gauge, X } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
-import { useData } from '../pages/DataContext';
+import { useRouter } from 'next/navigation';
+import { useData } from '../lib/DataContext';
 
 export const AddCar = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const { addCar, uploadImages } = useData();
   const [formData, setFormData] = useState({
     brand: '',
@@ -78,7 +79,7 @@ export const AddCar = () => {
       });
 
       toast.success('Vehicle added successfully!');
-      navigate('/admin/manage');
+      router.push('/admin/manage');
     } catch (error) {
       setIsSubmitting(false);
       // errors handled by context
@@ -303,7 +304,7 @@ export const AddCar = () => {
           <div className="pt-8 border-t border-slate-100 flex justify-end gap-4">
             <button 
               type="button"
-              onClick={() => navigate('/admin/manage')}
+              onClick={() => router.push('/admin/manage')}
               className="px-6 py-2.5 border border-slate-300 rounded-xl text-slate-700 font-medium hover:bg-slate-50 transition-colors"
             >
               Cancel
@@ -323,3 +324,5 @@ export const AddCar = () => {
     </div>
   );
 };
+
+

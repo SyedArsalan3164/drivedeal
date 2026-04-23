@@ -1,13 +1,15 @@
+"use client";
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useData } from './DataContext';
-import { useAuth } from './AuthContext';
+import { useParams, useRouter } from 'next/navigation';
+import { useData } from '../lib/DataContext';
+import { useAuth } from '../lib/AuthContext';
 import { MapPin, Calendar, Gauge, Fuel, Settings, ArrowLeft, Phone } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export const CarDetails = () => {
-  const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
+  const params = useParams();
+  const id = params?.id as string;
+  const router = useRouter();
   const { role, user } = useAuth();
   const { cars, addRequest } = useData();
   
@@ -23,9 +25,9 @@ export const CarDetails = () => {
 
   useEffect(() => {
     if (!car) {
-      navigate('/cars');
+      router.push('/cars');
     }
-  }, [car, navigate]);
+  }, [car, router]);
 
   if (!car) return null;
 
@@ -34,7 +36,7 @@ export const CarDetails = () => {
     
     if (!role) {
       toast.error('Please login to contact the dealer');
-      navigate('/login');
+      router.push('/login');
       return;
     }
 
@@ -59,10 +61,10 @@ export const CarDetails = () => {
     e.preventDefault();
     if (!role) {
       toast.error('Please login to call the dealer');
-      navigate('/login');
+      router.push('/login');
       return;
     }
-    const phone = import.meta.env.VITE_DEALER_PHONE;
+    const phone = process.env.NEXT_PUBLIC_DEALER_PHONE;
     window.location.href = `tel:${phone}`;
   };
 
@@ -71,7 +73,7 @@ export const CarDetails = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <button 
-          onClick={() => navigate(-1)}
+          onClick={() => router.back()}
           className="flex items-center gap-2 text-slate-500 hover:text-blue-600 mb-8 font-medium transition-colors"
         >
           <ArrowLeft className="h-4 w-4" /> Back to Collection
@@ -223,3 +225,5 @@ export const CarDetails = () => {
     </div>
   );
 };
+
+

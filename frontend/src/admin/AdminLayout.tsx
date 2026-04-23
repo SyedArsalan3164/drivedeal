@@ -1,65 +1,63 @@
+"use client";
 import React from 'react';
-import { Link, useLocation, Outlet, Navigate } from 'react-router-dom';
-import { useAuth } from '../pages/AuthContext';
+import { useAuth } from '../lib/AuthContext';
 import { LayoutDashboard, Car, PlusCircle, Users, LogOut } from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
-export const AdminLayout = () => {
+export const AdminLayout = ({ children }: { children?: React.ReactNode }) => {
   const { role, logout } = useAuth();
-  const location = useLocation();
+  const router = useRouter();
 
   if (role !== 'admin') {
-    return <Navigate to="/login" replace />;
+    return <div className="text-red-500 font-bold p-8">Unauthorized access. Please login as admin.</div>;
   }
 
-  const navItems = [
-    { path: '/admin/dashboard', icon: LayoutDashboard, label: 'Dashboard Overview' },
-    { path: '/admin/manage', icon: Car, label: 'Manage Cars' },
-    { path: '/admin/add-car', icon: PlusCircle, label: 'Add New Car' },
-    { path: '/admin/requests', icon: Users, label: 'Client Requests' },
-  ];
+  const handleLogout = () => {
+    logout();
+    router.push('/login');
+  };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row">
-      <aside className="w-full md:w-72 bg-white border-r border-slate-200 flex flex-col md:min-h-screen sticky top-24 md:top-0 z-40 shadow-sm">
-        <div className="p-8 border-b border-slate-100 hidden md:block">
-          <h2 className="text-2xl font-bold text-slate-900">Admin Portal</h2>
-          <p className="text-sm text-slate-500 font-medium mt-1">Dealership Management</p>
+    <div className="flex min-h-screen bg-slate-50">
+      
+      <aside className="w-64 bg-slate-900 text-slate-300 flex flex-col fixed h-full z-20">
+        <div className="p-6">
+          <Link href="/" className="text-2xl font-bold text-white flex items-center gap-2">
+            <Car className="h-8 w-8 text-blue-500" />
+            DriveDeal
+          </Link>
+          <div className="mt-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">Admin Portal</div>
         </div>
         
-        <nav className="flex-1 px-4 py-4 md:py-8 flex flex-row md:flex-col gap-2 overflow-x-auto md:overflow-visible">
-          {navItems.map((item) => {
-            const isActive = location.pathname === item.path;
-            const Icon = item.icon;
-            return (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all whitespace-nowrap font-medium ${
-                  isActive 
-                    ? 'bg-blue-50 text-blue-700' 
-                    : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
-                }`}
-              >
-                <Icon className={`h-5 w-5 ${isActive ? 'text-blue-600' : 'text-slate-400'}`} />
-                <span className="hidden md:inline">{item.label}</span>
-              </Link>
-            );
-          })}
+        <nav className="flex-1 px-4 space-y-2 mt-4">
+          <Link href="/admin/dashboard" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 hover:text-white transition-colors">
+            <LayoutDashboard className="h-5 w-5" /> Dashboard
+          </Link>
+          <Link href="/admin/manage" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 hover:text-white transition-colors">
+            <Car className="h-5 w-5" /> Manage Cars
+          </Link>
+          <Link href="/admin/add-car" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 hover:text-white transition-colors">
+            <PlusCircle className="h-5 w-5" /> Add New Car
+          </Link>
+          <Link href="/admin/requests" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 hover:text-white transition-colors">
+            <Users className="h-5 w-5" /> Client Inquiries
+          </Link>
         </nav>
-        
-        <div className="p-4 border-t border-slate-100 hidden md:block">
+
+        <div className="p-4 border-t border-slate-800">
           <button 
-            onClick={() => logout()}
-            className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-red-50 hover:text-red-600 transition-all w-full text-left font-medium"
+            onClick={handleLogout}
+            className="flex items-center gap-3 px-4 py-3 w-full text-left rounded-xl text-red-400 hover:bg-slate-800 hover:text-red-300 transition-colors"
           >
-            <LogOut className="h-5 w-5 text-slate-400" />
-            <span>Logout</span>
+            <LogOut className="h-5 w-5" /> Logout
           </button>
         </div>
       </aside>
 
-      <main className="flex-1 p-6 md:p-12 overflow-y-auto">
-        <Outlet />
+      
+      <main className="flex-1 ml-64 bg-slate-50 min-h-screen">
+        {children}
       </main>
     </div>
   );

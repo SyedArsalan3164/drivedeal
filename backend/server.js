@@ -31,7 +31,7 @@ app.use('/api/requests', require('./src/routes/requestRoutes'));
 app.use('/api/upload', require('./src/routes/uploadRoutes'));
 app.use('/api/newsletter', require('./src/routes/newsletterRoutes'));
 
-// Serve uploads folder statically
+
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
 const PORT = process.env.PORT || 5000;

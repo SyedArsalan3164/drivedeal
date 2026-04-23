@@ -1,5 +1,6 @@
+"use client";
 import React from 'react';
-import { useData } from '../pages/DataContext';
+import { useData } from '../lib/DataContext';
 import { Mail, Phone, Calendar, CheckCircle, Clock } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -118,3 +119,5 @@ export const ClientRequests = () => {
     </div>
   );
 };
+
+

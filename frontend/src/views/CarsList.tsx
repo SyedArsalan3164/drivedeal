@@ -1,6 +1,7 @@
+"use client";
 import React, { useState, useMemo } from 'react';
 import { Search } from 'lucide-react';
-import { useData } from './DataContext';
+import { useData } from '../lib/DataContext';
 import { CarCard } from '../components/CarCard';
 
 export const CarsList = () => {
@@ -63,3 +64,5 @@ export const CarsList = () => {
     </div>
   );
 };
+
+

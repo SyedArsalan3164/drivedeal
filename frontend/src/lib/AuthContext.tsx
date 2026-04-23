@@ -1,3 +1,4 @@
+"use client";
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 type UserRole = 'client' | 'admin' | null;
@@ -52,3 +53,5 @@ export const useAuth = () => {
   }
   return context;
 };
+
+

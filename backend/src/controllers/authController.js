@@ -12,9 +12,6 @@ const generateToken = (id) => {
   });
 };
 
-// @desc    Send OTP to email for registration
-// @route   POST /api/auth/send-otp
-// @access  Public
 const sendRegistrationOtp = async (req, res) => {
   try {
     const { email } = req.body;

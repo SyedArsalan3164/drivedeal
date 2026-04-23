@@ -1,8 +1,9 @@
+"use client";
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { Car, ClientRequest } from '../data/mockData';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
 
 // Helper to get token from storage
 const getToken = () => {
@@ -186,3 +187,5 @@ export const useData = () => {
   }
   return context;
 };
+
+

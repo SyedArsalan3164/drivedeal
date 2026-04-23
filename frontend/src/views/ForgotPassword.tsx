@@ -1,5 +1,6 @@
+"use client";
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { Mail, Car, ArrowLeft } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -16,7 +17,7 @@ export const ForgotPassword = () => {
     
     setIsLoading(true);
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/auth/forgotpassword`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'}/auth/forgotpassword`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email })
@@ -82,7 +83,7 @@ export const ForgotPassword = () => {
           </form>
 
           <div className="mt-6 text-center">
-            <Link to="/login" className="inline-flex items-center text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">
+            <Link href="/login" className="inline-flex items-center text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to login
             </Link>
@@ -92,3 +93,5 @@ export const ForgotPassword = () => {
     </div>
   );
 };
+
+

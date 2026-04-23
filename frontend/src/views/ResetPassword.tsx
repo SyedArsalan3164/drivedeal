@@ -1,5 +1,7 @@
+"use client";
 import React, { useState } from 'react';
-import { useNavigate, useParams, Link } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter, useParams } from 'next/navigation';
 import { Lock, Car, ArrowLeft } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -7,9 +9,10 @@ export const ResetPassword = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  
-  const { resetToken } = useParams();
-  const navigate = useNavigate();
+
+  const params = useParams();
+  const resetToken = params?.resetToken as string;
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,20 +24,20 @@ export const ResetPassword = () => {
       toast.error('Password must be at least 6 characters');
       return;
     }
-    
+
     setIsLoading(true);
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/auth/resetpassword/${resetToken}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'}/auth/resetpassword/${resetToken}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ password })
       });
       const data = await res.json();
-      
+
       if (!res.ok) throw new Error(data.message || 'Something went wrong');
-      
+
       toast.success('Password reset successful! Please login.');
-      navigate('/login');
+      router.push('/login');
     } catch (err: any) {
       toast.error(err.message);
     } finally {
@@ -54,7 +57,7 @@ export const ResetPassword = () => {
           Create new password
         </h2>
         <p className="mt-2 text-center text-sm text-slate-600">
-          Your new password must be different from previous used passwords.
+          Your new password must be different from previously used passwords.
         </p>
       </div>
 
@@ -107,7 +110,7 @@ export const ResetPassword = () => {
           </form>
 
           <div className="mt-6 text-center">
-            <Link to="/login" className="inline-flex items-center text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">
+            <Link href="/login" className="inline-flex items-center text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to login
             </Link>

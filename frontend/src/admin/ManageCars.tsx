@@ -1,5 +1,6 @@
+"use client";
 import React, { useState } from 'react';
-import { useData } from '../pages/DataContext';
+import { useData } from '../lib/DataContext';
 import { Edit, Trash2, Search } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -129,3 +130,5 @@ export const ManageCars = () => {
     </div>
   );
 };
+
+
