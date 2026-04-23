@@ -12,7 +12,8 @@ export default async function Page() {
   let initialCars = [];
   try {
     const res = await fetch(`${API_URL}/cars`, { cache: 'no-store' });
-    initialCars = await res.json();
+    const data = await res.json();
+    initialCars = Array.isArray(data) ? data.map((car: any) => ({ ...car, id: car._id })) : [];
   } catch (error) {
     console.error('Error fetching cars for SSR:', error);
   }
