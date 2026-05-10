@@ -96,12 +96,7 @@ export const Footer = () => {
               Contact Us
             </h4>
             <ul className="space-y-4">
-              <li className="flex items-start gap-3 text-sm">
-                <Phone className="h-4 w-4 text-[#3aab5c] mt-0.5 flex-shrink-0" />
-                <a href={`tel:${process.env.NEXT_PUBLIC_DEALER_PHONE}`} className="hover:text-white transition-colors">
-                  {process.env.NEXT_PUBLIC_DEALER_PHONE || '+91 99999 99999'}
-                </a>
-              </li>
+            
               <li className="flex items-start gap-3 text-sm">
                 <Mail className="h-4 w-4 text-[#3aab5c] mt-0.5 flex-shrink-0" />
                 <a href={`mailto:${process.env.NEXT_PUBLIC_DEALER_EMAIL || 'contact@drivedeal.com'}`} className="hover:text-white transition-colors break-all">
