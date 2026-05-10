@@ -132,7 +132,7 @@ export const Home = ({ initialCars = [] }: { initialCars?: any[] }) => {
               { value: `${cars.length}+`, label: 'Vehicles Listed' },
               { value: '150+', label: 'Point Inspection' },
               { value: '100%', label: 'Transparent Pricing' },
-              { value: '24/7', label: 'Support Available' },
+              
             ].map((stat, i) => (
               <div key={i} className="flex flex-col items-center">
                 <span className="text-3xl font-extrabold text-[#3aab5c]">{stat.value}</span>
