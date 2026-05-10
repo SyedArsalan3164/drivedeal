@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { CarsList } from '../../views/CarsList';
 
 export const metadata = {
@@ -7,5 +8,16 @@ export const metadata = {
 };
 
 export default function Page() {
-  return <CarsList />;
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-[#f5f7fa] flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-10 h-10 border-4 border-[#3aab5c] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-slate-500 text-sm font-medium">Loading vehicles...</p>
+        </div>
+      </div>
+    }>
+      <CarsList />
+    </Suspense>
+  );
 }

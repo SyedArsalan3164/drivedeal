@@ -20,7 +20,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Dynamic car routes
   let carRoutes: any[] = [];
   try {
-    const res = await fetch(`${API_URL}/cars`, { cache: 'no-store' });
+    const res = await fetch(`${API_URL}/cars`, { next: { revalidate: 3600 } });
     const cars = await res.json();
     carRoutes = cars.map((car: any) => ({
       url: `${BASE_URL}/car/${car._id}`,

@@ -6,7 +6,7 @@ export default async function Page() {
   // Fetch cars server-side for JSON-LD structured data (SEO only, not passed to client)
   let cars: any[] = [];
   try {
-    const res = await fetch(`${API_URL}/cars`, { cache: 'no-store' });
+    const res = await fetch(`${API_URL}/cars`, { next: { revalidate: 3600 } });
     const data = await res.json();
     cars = Array.isArray(data) ? data.map((car: any) => ({ ...car, id: car._id })) : [];
   } catch (error) {
