@@ -1,15 +1,16 @@
 import { Home } from '../views/Home';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://drivedeal-backend-api.onrender.com/api';
 
 export default async function Page() {
-  let initialCars: any[] = [];
+  // Fetch cars server-side for JSON-LD structured data (SEO only, not passed to client)
+  let cars: any[] = [];
   try {
     const res = await fetch(`${API_URL}/cars`, { cache: 'no-store' });
     const data = await res.json();
-    initialCars = Array.isArray(data) ? data.map((car: any) => ({ ...car, id: car._id })) : [];
+    cars = Array.isArray(data) ? data.map((car: any) => ({ ...car, id: car._id })) : [];
   } catch (error) {
-    console.error('Error fetching cars for Home SSR:', error);
+    console.error('Error fetching cars for SEO:', error);
   }
 
   const jsonLd = {
@@ -35,14 +36,7 @@ export default async function Page() {
     },
     openingHoursSpecification: {
       '@type': 'OpeningHoursSpecification',
-      dayOfWeek: [
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday'
-      ],
+      dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
       opens: '09:00',
       closes: '20:00'
     },
@@ -52,13 +46,42 @@ export default async function Page() {
     ]
   };
 
+  // Build ItemList schema for car listings (SEO rich results)
+  const carsJsonLd = cars.length > 0 ? {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    itemListElement: cars.slice(0, 10).map((car: any, index: number) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      item: {
+        '@type': 'Car',
+        name: `${car.brand} ${car.model} ${car.year}`,
+        description: car.description || `Used ${car.brand} ${car.model} ${car.year} for sale`,
+        url: `https://www.drivedeal.tech/car/${car.id}`,
+        vehicleModelDate: String(car.year),
+        offers: {
+          '@type': 'Offer',
+          price: car.price,
+          priceCurrency: 'INR',
+          availability: 'https://schema.org/InStock'
+        }
+      }
+    }))
+  } : null;
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Home initialCars={initialCars} />
+      {carsJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(carsJsonLd) }}
+        />
+      )}
+      <Home />
     </>
   );
 }

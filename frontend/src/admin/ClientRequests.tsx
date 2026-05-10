@@ -55,7 +55,7 @@ export const ClientRequests = () => {
                           )}
                           <div>
                             <div className="font-medium text-slate-900">{car.brand} {car.model}</div>
-                            <div className="text-sm text-blue-600 font-semibold">₹{(car.price || 0).toLocaleString()}</div>
+                            <div className="text-sm text-blue-600 font-semibold">₹{(car.price || 0).toLocaleString('en-IN')}</div>
                           </div>
                         </div>
                       ) : (request as any).vehicleBrand ? (
@@ -65,7 +65,7 @@ export const ClientRequests = () => {
                           </div>
                           <div>
                             <div className="font-medium text-slate-900">{(request as any).vehicleBrand} {(request as any).vehicleModel}</div>
-                            <div className="text-sm text-blue-600 font-semibold">₹{((request as any).vehiclePrice || 0).toLocaleString()} <span className="text-xs text-slate-400 font-normal">(Deleted Vehicle)</span></div>
+                            <div className="text-sm text-blue-600 font-semibold">₹{((request as any).vehiclePrice || 0).toLocaleString('en-IN')} <span className="text-xs text-slate-400 font-normal">(Deleted Vehicle)</span></div>
                           </div>
                         </div>
                       ) : (
@@ -75,7 +75,7 @@ export const ClientRequests = () => {
                     <td className="p-4">
                       <div className="flex items-center gap-2 text-sm text-slate-600">
                         <Calendar className="h-4 w-4 text-blue-600" />
-                        {new Date(request.visitDate).toLocaleDateString()}
+                        {new Date(request.visitDate).toLocaleDateString('en-IN')}
                       </div>
                     </td>
                     <td className="p-4">

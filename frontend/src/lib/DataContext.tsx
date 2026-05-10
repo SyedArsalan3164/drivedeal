@@ -55,6 +55,14 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const res = await fetch(`${API_URL}/requests`, {
         headers: { Authorization: `Bearer ${token}` }
       });
+      
+      if (res.status === 401) {
+        console.warn("Session expired or unauthorized. Clearing token.");
+        localStorage.removeItem('drivedeal_user');
+        localStorage.removeItem('drivedeal_role');
+        return;
+      }
+
       const data = await res.json();
       if (Array.isArray(data)) {
         const mappedReqs = data.map((req: any) => ({ ...req, id: req._id }));
@@ -77,9 +85,9 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
         },
         body: formData
       });
-      
+
       if (!res.ok) throw new Error("Failed to upload images");
-      
+
       const data = await res.json();
       return data.urls;
     } catch (err: any) {
@@ -98,9 +106,17 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
         },
         body: JSON.stringify(carData)
       });
-      
+
+      if (res.status === 401) {
+        toast.error("Session expired. Please login again.");
+        localStorage.removeItem('drivedeal_user');
+        localStorage.removeItem('drivedeal_role');
+        window.location.href = '/login';
+        return;
+      }
+
       if (!res.ok) throw new Error("Failed to add car");
-      
+
       const newCar = await res.json();
       setCars(prev => [{ ...newCar, id: newCar._id }, ...prev]);
     } catch (err: any) {
@@ -118,7 +134,15 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
         },
         body: JSON.stringify(updates)
       });
-      
+
+      if (res.status === 401) {
+        toast.error("Session expired. Please login again.");
+        localStorage.removeItem('drivedeal_user');
+        localStorage.removeItem('drivedeal_role');
+        window.location.href = '/login';
+        return;
+      }
+
       if (!res.ok) throw new Error("Failed to update car");
       await fetchCars(); // Refresh the list
     } catch (err: any) {
@@ -132,7 +156,15 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
         method: 'DELETE',
         headers: { Authorization: `Bearer ${getToken()}` }
       });
-      
+
+      if (res.status === 401) {
+        toast.error("Session expired. Please login again.");
+        localStorage.removeItem('drivedeal_user');
+        localStorage.removeItem('drivedeal_role');
+        window.location.href = '/login';
+        return;
+      }
+
       if (!res.ok) throw new Error("Failed to delete car");
       setCars(prev => prev.filter(car => car.id !== id));
     } catch (err: any) {
@@ -147,7 +179,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(requestData)
       });
-      
+
       if (!res.ok) throw new Error("Failed to submit request");
       toast.success("Request sent successfully!");
     } catch (err: any) {
@@ -165,7 +197,15 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
         },
         body: JSON.stringify({ status })
       });
-      
+
+      if (res.status === 401) {
+        toast.error("Session expired. Please login again.");
+        localStorage.removeItem('drivedeal_user');
+        localStorage.removeItem('drivedeal_role');
+        window.location.href = '/login';
+        return;
+      }
+
       if (!res.ok) throw new Error("Failed to update status");
       await fetchRequests(); // Refresh
     } catch (err: any) {

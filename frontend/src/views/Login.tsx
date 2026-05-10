@@ -1,10 +1,12 @@
-﻿"use client";
+"use client";
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../lib/AuthContext';
-import { Lock, Mail, User as UserIcon, Car } from 'lucide-react';
+import { Lock, Mail, User as UserIcon, Car, ShieldCheck } from 'lucide-react';
 import toast from 'react-hot-toast';
+
+const inputClass = "w-full bg-[#f5f7fa] border border-slate-200 rounded-xl py-3 pl-12 pr-4 text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#3aab5c] focus:border-transparent transition-all text-sm";
 
 export const Login = () => {
   const [activeTab, setActiveTab] = useState('client');
@@ -45,68 +47,125 @@ export const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="flex justify-center">
-          <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-600/20">
-            <Car className="h-8 w-8 text-white" />
+    <div className="min-h-screen bg-[#f5f7fa] flex">
+      {/* Left panel */}
+      <div className="hidden lg:flex lg:w-1/2 bg-[#151c25] flex-col justify-between p-12 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-5" style={{
+          backgroundImage: 'radial-gradient(circle at 2px 2px, #3aab5c 1px, transparent 0)',
+          backgroundSize: '40px 40px'
+        }} />
+        <Link href="/" className="flex items-center gap-2 relative z-10">
+          <div className="p-2 rounded-xl bg-[#3aab5c]">
+            <Car className="h-6 w-6 text-white" />
+          </div>
+          <span className="font-bold text-xl text-white">DriveDeal</span>
+        </Link>
+        <div className="relative z-10">
+          <h2 className="text-4xl font-extrabold text-white mb-4 leading-tight">
+            Your perfect car<br /><span className="text-[#3aab5c]">is waiting for you.</span>
+          </h2>
+          <p className="text-slate-400 text-base mb-10">Sign in to browse verified vehicles and connect with our dealers across Karnataka and India.</p>
+          <div className="space-y-4">
+            {['150-point verified inspections', 'Transparent, no-hidden-fee pricing', '24/7 roadside support included'].map((t, i) => (
+              <div key={i} className="flex items-center gap-3">
+                <div className="w-5 h-5 rounded-full bg-[#3aab5c]/20 flex items-center justify-center flex-shrink-0">
+                  <div className="w-2 h-2 rounded-full bg-[#3aab5c]" />
+                </div>
+                <span className="text-slate-300 text-sm">{t}</span>
+              </div>
+            ))}
           </div>
         </div>
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-slate-900">Welcome back</h2>
-        <p className="mt-2 text-center text-sm text-slate-600">Sign in to your account</p>
+        <p className="text-slate-600 text-xs relative z-10">&copy; {new Date().getFullYear()} DriveDeal. All rights reserved.</p>
       </div>
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow-xl sm:rounded-2xl sm:px-10 border border-slate-100">
-          <div className="flex border-b border-slate-200 mb-8">
-            <button className={"flex-1 py-4 text-sm font-semibold text-center border-b-2 transition-colors " + (activeTab === 'client' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500')} onClick={() => setActiveTab('client')}>Client</button>
-            <button className={"flex-1 py-4 text-sm font-semibold text-center border-b-2 transition-colors " + (activeTab === 'admin' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500')} onClick={() => setActiveTab('admin')}>Admin</button>
+
+      {/* Right panel */}
+      <div className="flex-1 flex flex-col justify-center items-center px-6 py-12">
+        <div className="w-full max-w-md">
+          {/* Mobile logo */}
+          <div className="lg:hidden flex justify-center mb-8">
+            <Link href="/" className="flex items-center gap-2">
+              <div className="p-2 rounded-xl bg-[#3aab5c]"><Car className="h-6 w-6 text-white" /></div>
+              <span className="font-bold text-xl text-slate-900">DriveDeal</span>
+            </Link>
           </div>
-          {activeTab === 'client' && (
-            <div>
-              <form className="space-y-6" onSubmit={handleClientLogin}>
+
+          <div className="mb-8">
+            <h1 className="text-2xl font-extrabold text-slate-900">Welcome back</h1>
+            <p className="text-slate-500 mt-1 text-sm">Sign in to your account to continue</p>
+          </div>
+
+          {/* Tabs */}
+          <div className="flex bg-[#f5f7fa] p-1 rounded-xl mb-8 border border-slate-200">
+            {[['client', 'Client'], ['admin', 'Admin']].map(([key, label]) => (
+              <button
+                key={key}
+                onClick={() => setActiveTab(key)}
+                className={`flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all ${activeTab === key ? 'bg-white text-slate-900 shadow-sm border border-slate-200' : 'text-slate-500 hover:text-slate-700'}`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+
+          <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-8">
+            {activeTab === 'client' && (
+              <form className="space-y-5" onSubmit={handleClientLogin}>
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Email Address</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-1.5">Email Address</label>
                   <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><Mail className="h-5 w-5 text-slate-400" /></div>
-                    <input type="email" required value={clientEmail} onChange={(e) => setClientEmail(e.target.value)} className="w-full bg-slate-50 border border-slate-300 rounded-xl py-3 pl-12 pr-4 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="client@example.com" />
+                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                    <input type="email" required value={clientEmail} onChange={e => setClientEmail(e.target.value)} className={inputClass} placeholder="you@example.com" />
                   </div>
                 </div>
                 <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <label className="block text-sm font-medium text-slate-700">Password</label>
-                    <Link href="/forgot-password" className="text-sm font-medium text-blue-600 hover:text-blue-500">Forgot password?</Link>
+                  <div className="flex justify-between mb-1.5">
+                    <label className="text-sm font-medium text-slate-700">Password</label>
+                    <Link href="/forgot-password" className="text-xs font-medium text-[#3aab5c] hover:text-[#2d8f4b]">Forgot password?</Link>
                   </div>
                   <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><Lock className="h-5 w-5 text-slate-400" /></div>
-                    <input type="password" required value={clientPassword} onChange={(e) => setClientPassword(e.target.value)} className="w-full bg-slate-50 border border-slate-300 rounded-xl py-3 pl-12 pr-4 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="..." />
+                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                    <input type="password" required value={clientPassword} onChange={e => setClientPassword(e.target.value)} className={inputClass} placeholder="••••••••" />
                   </div>
                 </div>
-                <button type="submit" className="w-full bg-blue-600 text-white hover:bg-blue-700 font-bold py-3.5 px-6 rounded-xl transition-colors shadow-sm">Sign In</button>
+                <button type="submit" className="w-full bg-[#3aab5c] text-white hover:bg-[#2d8f4b] font-bold py-3 px-6 rounded-xl transition-colors shadow-sm text-sm">
+                  Sign In
+                </button>
               </form>
-              <div className="mt-8">
-                <Link href="/signup" className="w-full flex justify-center py-3.5 px-4 border-2 border-slate-200 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-50 transition-all">Create Account</Link>
-              </div>
-            </div>
-          )}
-          {activeTab === 'admin' && (
-            <form className="space-y-6" onSubmit={handleAdminLogin}>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Admin Email</label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><UserIcon className="h-5 w-5 text-slate-400" /></div>
-                  <input type="email" required value={adminEmail} onChange={(e) => setAdminEmail(e.target.value)} className="w-full bg-slate-50 border border-slate-300 rounded-xl py-3 pl-12 pr-4 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="admin@drivedeal.com" />
+            )}
+
+            {activeTab === 'admin' && (
+              <form className="space-y-5" onSubmit={handleAdminLogin}>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1.5">Admin Email</label>
+                  <div className="relative">
+                    <UserIcon className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                    <input type="email" required value={adminEmail} onChange={e => setAdminEmail(e.target.value)} className={inputClass} placeholder="admin@drivedeal.com" />
+                  </div>
                 </div>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Password</label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><Lock className="h-5 w-5 text-slate-400" /></div>
-                  <input type="password" required value={adminPassword} onChange={(e) => setAdminPassword(e.target.value)} className="w-full bg-slate-50 border border-slate-300 rounded-xl py-3 pl-12 pr-4 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="..." />
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1.5">Password</label>
+                  <div className="relative">
+                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                    <input type="password" required value={adminPassword} onChange={e => setAdminPassword(e.target.value)} className={inputClass} placeholder="••••••••" />
+                  </div>
                 </div>
+                <button type="submit" className="w-full bg-[#151c25] text-white hover:bg-[#1e2836] font-bold py-3 px-6 rounded-xl transition-colors shadow-sm flex items-center justify-center gap-2 text-sm">
+                  <ShieldCheck className="h-4 w-4" />
+                  Access Dashboard
+                </button>
+              </form>
+            )}
+
+            {activeTab === 'client' && (
+              <div className="mt-6 pt-5 border-t border-slate-100 text-center">
+                <p className="text-sm text-slate-500">
+                  Don't have an account?{' '}
+                  <Link href="/signup" className="font-bold text-[#3aab5c] hover:text-[#2d8f4b]">Create one</Link>
+                </p>
               </div>
-              <button type="submit" className="w-full bg-slate-900 text-white hover:bg-slate-800 font-bold py-3.5 px-6 rounded-xl transition-colors shadow-sm">Access Dashboard</button>
-            </form>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </div>

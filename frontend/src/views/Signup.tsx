@@ -1,10 +1,12 @@
-﻿"use client";
+"use client";
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../lib/AuthContext';
-import { Lock, Mail, User, Phone, Car, KeyRound, ArrowLeft } from 'lucide-react';
+import { Lock, Mail, User, Phone, Car, KeyRound, ArrowLeft, CheckCircle2 } from 'lucide-react';
 import toast from 'react-hot-toast';
+
+const inputClass = "w-full bg-[#f5f7fa] border border-slate-200 rounded-xl py-3 pl-12 pr-4 text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#3aab5c] focus:border-transparent transition-all text-sm disabled:opacity-60";
 
 export const Signup = () => {
   const { login } = useAuth();
@@ -66,78 +68,130 @@ export const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="flex justify-center">
-          <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-600/20">
-            {step === 'details' ? <Car className="h-8 w-8 text-white" /> : <KeyRound className="h-8 w-8 text-white" />}
+    <div className="min-h-screen bg-[#f5f7fa] flex">
+      {/* Left panel */}
+      <div className="hidden lg:flex lg:w-2/5 bg-[#151c25] flex-col justify-between p-12 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-5" style={{
+          backgroundImage: 'radial-gradient(circle at 2px 2px, #3aab5c 1px, transparent 0)',
+          backgroundSize: '40px 40px'
+        }} />
+        <Link href="/" className="flex items-center gap-2 relative z-10">
+          <div className="p-2 rounded-xl bg-[#3aab5c]"><Car className="h-6 w-6 text-white" /></div>
+          <span className="font-bold text-xl text-white">DriveDeal</span>
+        </Link>
+        <div className="relative z-10">
+          <h2 className="text-3xl font-extrabold text-white mb-4 leading-tight">
+            Join DriveDeal<br /><span className="text-[#3aab5c]">Find your car today.</span>
+          </h2>
+          <p className="text-slate-400 text-sm mb-8">Create a free account to browse our verified inventory, save favorites, and contact dealers directly.</p>
+          <div className="space-y-3">
+            {['Free account, no credit card needed', 'Browse thousands of verified cars', 'Instant dealer contact'].map((t, i) => (
+              <div key={i} className="flex items-center gap-3">
+                <CheckCircle2 className="h-4 w-4 text-[#3aab5c] flex-shrink-0" />
+                <span className="text-slate-300 text-sm">{t}</span>
+              </div>
+            ))}
           </div>
         </div>
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-slate-900">{step === 'details' ? 'Create an account' : 'Verify Email'}</h2>
-        <p className="mt-2 text-center text-sm text-slate-600">{step === 'details' ? 'Join DriveDeal to browse and contact our dealers' : ('We sent a 6-digit code to ' + formData.email)}</p>
+        <p className="text-slate-600 text-xs relative z-10">&copy; {new Date().getFullYear()} DriveDeal</p>
       </div>
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow-xl sm:rounded-2xl sm:px-10 border border-slate-100">
-          {step === 'details' ? (
-            <form className="space-y-6" onSubmit={requestOtp}>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Full Name</label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><User className="h-5 w-5 text-slate-400" /></div>
-                  <input type="text" name="fullName" required value={formData.fullName} onChange={handleChange} disabled={isLoading} className="w-full bg-slate-50 border border-slate-300 rounded-xl py-3 pl-12 pr-4 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-70" placeholder="John Doe" />
-                </div>
+
+      {/* Right panel */}
+      <div className="flex-1 flex flex-col justify-center items-center px-6 py-12 overflow-y-auto">
+        <div className="w-full max-w-md">
+          {/* Mobile logo */}
+          <div className="lg:hidden flex justify-center mb-8">
+            <Link href="/" className="flex items-center gap-2">
+              <div className="p-2 rounded-xl bg-[#3aab5c]"><Car className="h-6 w-6 text-white" /></div>
+              <span className="font-bold text-xl text-slate-900">DriveDeal</span>
+            </Link>
+          </div>
+
+          <div className="mb-6">
+            <div className="flex items-center gap-3 mb-2">
+              <div className={`p-2 rounded-xl ${step === 'otp' ? 'bg-[#3aab5c]' : 'bg-slate-200'} transition-colors`}>
+                {step === 'details' ? <Car className="h-5 w-5 text-slate-600" /> : <KeyRound className="h-5 w-5 text-white" />}
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Email Address</label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><Mail className="h-5 w-5 text-slate-400" /></div>
-                  <input type="email" name="email" required value={formData.email} onChange={handleChange} disabled={isLoading} className="w-full bg-slate-50 border border-slate-300 rounded-xl py-3 pl-12 pr-4 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-70" placeholder="you@example.com" />
-                </div>
+                <h1 className="text-2xl font-extrabold text-slate-900">
+                  {step === 'details' ? 'Create an account' : 'Verify your email'}
+                </h1>
+                <p className="text-slate-500 text-sm">
+                  {step === 'details' ? 'Join DriveDeal to browse and contact our dealers' : `We sent a 6-digit code to ${formData.email}`}
+                </p>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Phone Number</label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><Phone className="h-5 w-5 text-slate-400" /></div>
-                  <input type="tel" name="phone" required value={formData.phone} onChange={handleChange} disabled={isLoading} className="w-full bg-slate-50 border border-slate-300 rounded-xl py-3 pl-12 pr-4 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-70" placeholder="(555) 123-4567" />
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Password</label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><Lock className="h-5 w-5 text-slate-400" /></div>
-                  <input type="password" name="password" required value={formData.password} onChange={handleChange} disabled={isLoading} className="w-full bg-slate-50 border border-slate-300 rounded-xl py-3 pl-12 pr-4 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-70" placeholder="..." />
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Confirm Password</label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><Lock className="h-5 w-5 text-slate-400" /></div>
-                  <input type="password" name="confirmPassword" required value={formData.confirmPassword} onChange={handleChange} disabled={isLoading} className="w-full bg-slate-50 border border-slate-300 rounded-xl py-3 pl-12 pr-4 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-70" placeholder="..." />
-                </div>
-              </div>
-              <button type="submit" disabled={isLoading} className="w-full bg-blue-600 text-white hover:bg-blue-700 font-bold py-3.5 px-6 rounded-xl transition-colors shadow-sm disabled:opacity-70">{isLoading ? 'Verifying...' : 'Next Step'}</button>
-            </form>
-          ) : (
-            <form className="space-y-6" onSubmit={handleRegister}>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2 text-center">6-Digit Registration Code</label>
-                <input type="text" maxLength={6} required value={otp} onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))} disabled={isLoading} className="w-full text-center text-3xl tracking-widest bg-slate-50 border border-slate-300 rounded-xl py-4 px-4 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-70" placeholder="000000" />
-              </div>
-              <button type="submit" disabled={isLoading || otp.length !== 6} className="w-full bg-blue-600 text-white hover:bg-blue-700 font-bold py-3.5 px-6 rounded-xl transition-colors shadow-sm disabled:opacity-50">{isLoading ? 'Registering...' : 'Verify & Register'}</button>
-              <div className="mt-6 text-center">
-                <button type="button" onClick={() => setStep('details')} className="inline-flex items-center text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">
-                  <ArrowLeft className="h-4 w-4 mr-2" />Change Email Address
-                </button>
-              </div>
-            </form>
-          )}
-          {step === 'details' && (
-            <div className="mt-8 text-center">
-              <p className="text-sm text-slate-600">Already have an account?{' '}
-                <Link href="/login" className="font-bold text-blue-600 hover:text-blue-700 transition-colors">Sign in</Link>
-              </p>
             </div>
-          )}
+            {/* Step indicator */}
+            <div className="flex items-center gap-2 mt-4">
+              <div className="h-1.5 flex-1 rounded-full bg-[#3aab5c]" />
+              <div className={`h-1.5 flex-1 rounded-full ${step === 'otp' ? 'bg-[#3aab5c]' : 'bg-slate-200'} transition-colors`} />
+            </div>
+          </div>
+
+          <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-8">
+            {step === 'details' ? (
+              <form className="space-y-4" onSubmit={requestOtp}>
+                {[
+                  { label: 'Full Name', name: 'fullName', type: 'text', icon: User, placeholder: 'John Doe' },
+                  { label: 'Email Address', name: 'email', type: 'email', icon: Mail, placeholder: 'you@example.com' },
+                  { label: 'Phone Number', name: 'phone', type: 'tel', icon: Phone, placeholder: '+91 99999 99999' },
+                ].map(({ label, name, type, icon: Icon, placeholder }) => (
+                  <div key={name}>
+                    <label className="block text-sm font-medium text-slate-700 mb-1.5">{label}</label>
+                    <div className="relative">
+                      <Icon className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                      <input type={type} name={name} required value={formData[name]} onChange={handleChange} disabled={isLoading} className={inputClass} placeholder={placeholder} />
+                    </div>
+                  </div>
+                ))}
+                {[
+                  { label: 'Password', name: 'password', placeholder: '••••••••' },
+                  { label: 'Confirm Password', name: 'confirmPassword', placeholder: '••••••••' },
+                ].map(({ label, name, placeholder }) => (
+                  <div key={name}>
+                    <label className="block text-sm font-medium text-slate-700 mb-1.5">{label}</label>
+                    <div className="relative">
+                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                      <input type="password" name={name} required value={formData[name]} onChange={handleChange} disabled={isLoading} className={inputClass} placeholder={placeholder} />
+                    </div>
+                  </div>
+                ))}
+                <button type="submit" disabled={isLoading} className="w-full bg-[#3aab5c] text-white hover:bg-[#2d8f4b] font-bold py-3 px-6 rounded-xl transition-colors shadow-sm disabled:opacity-70 text-sm mt-2">
+                  {isLoading ? 'Sending code...' : 'Continue →'}
+                </button>
+              </form>
+            ) : (
+              <form className="space-y-5" onSubmit={handleRegister}>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1.5 text-center">6-Digit Verification Code</label>
+                  <input
+                    type="text" maxLength={6} required value={otp}
+                    onChange={e => setOtp(e.target.value.replace(/\D/g, ''))}
+                    disabled={isLoading}
+                    className="w-full text-center text-3xl tracking-[0.5em] bg-[#f5f7fa] border border-slate-200 rounded-xl py-4 px-4 text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#3aab5c] focus:border-transparent disabled:opacity-70 font-mono"
+                    placeholder="000000"
+                  />
+                </div>
+                <button type="submit" disabled={isLoading || otp.length !== 6} className="w-full bg-[#3aab5c] text-white hover:bg-[#2d8f4b] font-bold py-3 px-6 rounded-xl transition-colors shadow-sm disabled:opacity-50 text-sm">
+                  {isLoading ? 'Registering...' : 'Verify & Create Account'}
+                </button>
+                <div className="text-center">
+                  <button type="button" onClick={() => setStep('details')} className="inline-flex items-center text-sm font-medium text-slate-500 hover:text-[#3aab5c] transition-colors">
+                    <ArrowLeft className="h-4 w-4 mr-1.5" /> Change email address
+                  </button>
+                </div>
+              </form>
+            )}
+
+            {step === 'details' && (
+              <div className="mt-5 pt-5 border-t border-slate-100 text-center">
+                <p className="text-sm text-slate-500">
+                  Already have an account?{' '}
+                  <Link href="/login" className="font-bold text-[#3aab5c] hover:text-[#2d8f4b]">Sign in</Link>
+                </p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
