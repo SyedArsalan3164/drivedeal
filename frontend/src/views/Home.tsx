@@ -71,10 +71,7 @@ export const Home = ({ initialCars = [] }: { initialCars?: any[] }) => {
                 <CheckCircle2 className="h-4 w-4" />
                 Premium services
               </div>
-              <div className="hero-badge">
-                <CheckCircle2 className="h-4 w-4" />
-                24/7 roadside support
-              </div>
+              
             </div>
           </div>
         </div>
