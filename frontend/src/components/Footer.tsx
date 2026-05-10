@@ -50,14 +50,15 @@ export const Footer = () => {
             </p>
             <div className="flex items-center gap-3">
               {[
-                { icon: Facebook, href: '#' },
-                { icon: Twitter, href: '#' },
-                { icon: Instagram, href: '#' },
-                { icon: Youtube, href: '#' },
-              ].map(({ icon: Icon, href }) => (
+                { icon: Facebook, label: 'Facebook', href: '#' },
+                { icon: Twitter, label: 'Twitter', href: '#' },
+                { icon: Instagram, label: 'Instagram', href: '#' },
+                { icon: Youtube, label: 'YouTube', href: '#' },
+              ].map(({ icon: Icon, label, href }) => (
                 <a
-                  key={href + Icon.name}
+                  key={label}
                   href={href}
+                  aria-label={label}
                   className="w-8 h-8 rounded-lg bg-white/5 hover:bg-[#3aab5c] flex items-center justify-center transition-all duration-200 group"
                 >
                   <Icon className="h-4 w-4 text-slate-400 group-hover:text-white transition-colors" />
@@ -95,7 +96,12 @@ export const Footer = () => {
               Contact Us
             </h4>
             <ul className="space-y-4">
-             
+              <li className="flex items-start gap-3 text-sm">
+                <Phone className="h-4 w-4 text-[#3aab5c] mt-0.5 flex-shrink-0" />
+                <a href={`tel:${process.env.NEXT_PUBLIC_DEALER_PHONE}`} className="hover:text-white transition-colors">
+                  {process.env.NEXT_PUBLIC_DEALER_PHONE || '+91 99999 99999'}
+                </a>
+              </li>
               <li className="flex items-start gap-3 text-sm">
                 <Mail className="h-4 w-4 text-[#3aab5c] mt-0.5 flex-shrink-0" />
                 <a href={`mailto:${process.env.NEXT_PUBLIC_DEALER_EMAIL || 'contact@drivedeal.com'}`} className="hover:text-white transition-colors break-all">
@@ -104,7 +110,7 @@ export const Footer = () => {
               </li>
               <li className="flex items-start gap-3 text-sm">
                 <MapPin className="h-4 w-4 text-[#3aab5c] mt-0.5 flex-shrink-0" />
-                <span>Belur, Karnataka, India</span>
+                <span>Bangalore, Karnataka, India</span>
               </li>
               <li className="mt-2">
                 <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#3aab5c] bg-[#3aab5c]/10 px-3 py-1.5 rounded-full">
