@@ -105,7 +105,7 @@ export const Footer = () => {
               </li>
               <li className="flex items-start gap-3 text-sm">
                 <MapPin className="h-4 w-4 text-[#3aab5c] mt-0.5 flex-shrink-0" />
-                <span>Bangalore, Karnataka, India</span>
+                <span>Belur, Karnataka, India</span>
               </li>
               <li className="mt-2">
                 <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#3aab5c] bg-[#3aab5c]/10 px-3 py-1.5 rounded-full">
