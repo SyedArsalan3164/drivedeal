@@ -130,8 +130,9 @@ export const Home = ({ initialCars = [] }: { initialCars?: any[] }) => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {[
               { value: `${cars.length}+`, label: 'Vehicles Listed' },
-              { value: '150+', label: 'Point Inspection' },
+              { value: 'On Spot', label: 'Point Inspection' },
               { value: '100%', label: 'Transparent Pricing' },
+              { value: 'Constantly', label: 'Support Available' },
               
             ].map((stat, i) => (
               <div key={i} className="flex flex-col items-center">
