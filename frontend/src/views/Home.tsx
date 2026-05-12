@@ -63,7 +63,7 @@ export const Home = ({ initialCars = [] }: { initialCars?: any[] }) => {
 
             {/* Badges — centered on mobile */}
             <div className="flex flex-wrap justify-center lg:justify-start gap-3 mt-4">
-              {['High quality at a low cost', 'Premium services', '24/7 roadside support'].map(text => (
+              {['High quality at a low cost', 'Premium services'].map(text => (
                 <div key={text} className="hero-badge">
                   <CheckCircle2 className="h-3.5 w-3.5 flex-shrink-0" />
                   <span className="text-xs sm:text-sm">{text}</span>
