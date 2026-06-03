@@ -33,7 +33,7 @@ export const GoToTop = () => {
     <>
       {isVisible && (
         <button
-           onClick={scrollToTop}
+          onClick={scrollToTop}
           className="fixed bottom-8 right-8 p-3 rounded-full bg-[#3aab5c] text-white shadow-lg hover:bg-[#2d8f4b] hover:shadow-xl transition-all duration-300 z-50 focus:outline-none focus:ring-2 focus:ring-[#3aab5c] focus:ring-offset-2"
           aria-label="Go to top"
         >

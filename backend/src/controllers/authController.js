@@ -268,7 +268,7 @@ const googleAuth = async (req, res) => {
     let user = await User.findOne({ email });
 
     if (user) {
-      // If this is a signup attempt and user already exists, block it
+      // Signup attempt but account already exists
       if (isSignup) {
         return res.status(400).json({
           message: 'An account with this email already exists. Please sign in instead.',
@@ -280,7 +280,13 @@ const googleAuth = async (req, res) => {
         await user.save({ validateBeforeSave: false });
       }
     } else {
-      // Create a new Google user (no password)
+      // Login attempt but no account found
+      if (!isSignup) {
+        return res.status(404).json({
+          message: 'No account found with this email. Please sign up first.',
+        });
+      }
+      // Signup: create a new Google user (no password needed)
       user = await User.create({
         name,
         email,
@@ -298,6 +304,7 @@ const googleAuth = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
+
   }
 };
 

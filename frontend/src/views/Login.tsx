@@ -67,6 +67,7 @@ export const Login = () => {
             name: profile.name,
             googleId: profile.sub,
             picture: profile.picture,
+            isSignup: false, // login attempt — block if no account found
           }),
         });
         const data = await res.json();
