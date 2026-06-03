@@ -253,6 +253,55 @@ const resetPassword = async (req, res) => {
   }
 };
 
+// @desc    Google OAuth login/register
+// @route   POST /api/auth/google
+// @access  Public
+const googleAuth = async (req, res) => {
+  try {
+    const { email, name, googleId, picture, isSignup } = req.body;
+
+    if (!email || !googleId) {
+      return res.status(400).json({ message: 'Missing Google account information' });
+    }
+
+    // Find existing user by email
+    let user = await User.findOne({ email });
+
+    if (user) {
+      // If this is a signup attempt and user already exists, block it
+      if (isSignup) {
+        return res.status(400).json({
+          message: 'An account with this email already exists. Please sign in instead.',
+        });
+      }
+      // Login: link googleId if not already linked
+      if (!user.googleId) {
+        user.googleId = googleId;
+        await user.save({ validateBeforeSave: false });
+      }
+    } else {
+      // Create a new Google user (no password)
+      user = await User.create({
+        name,
+        email,
+        googleId,
+        role: 'user',
+      });
+    }
+
+    res.json({
+      _id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      token: generateToken(user._id),
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
 module.exports = {
   sendRegistrationOtp,
   registerUser,
@@ -260,4 +309,6 @@ module.exports = {
   getMe,
   forgotPassword,
   resetPassword,
+  googleAuth,
 };
+
