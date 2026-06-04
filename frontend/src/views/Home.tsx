@@ -136,7 +136,7 @@ export const Home = ({ initialCars = [] }: { initialCars?: any[] }) => {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 text-center">
             {[
               { value: `${cars.length}+`, label: 'Vehicles Listed' },
-              { value: 'On-Spot', label: 'Point Inspection' },
+              { value: 'On-Spot', label: 'Vehicle Inspection' },
               { value: '100%', label: 'Transparent Pricing' },
               { value: 'Constant', label: 'Support Available' },
             ].map((stat, i) => (
