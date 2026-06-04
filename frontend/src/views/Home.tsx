@@ -63,7 +63,7 @@ export const Home = ({ initialCars = [] }: { initialCars?: any[] }) => {
 
             {/* Badges — centered on mobile */}
             <div className="flex flex-wrap justify-center lg:justify-start gap-3 mt-4">
-              {['High quality at a low cost', 'Premium services', '24/7 roadside support'].map(text => (
+              {['High quality at a low cost', 'Premium services', 'Regular Updates'].map(text => (
                 <div key={text} className="hero-badge">
                   <CheckCircle2 className="h-3.5 w-3.5 flex-shrink-0" />
                   <span className="text-xs sm:text-sm">{text}</span>
@@ -136,9 +136,9 @@ export const Home = ({ initialCars = [] }: { initialCars?: any[] }) => {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 text-center">
             {[
               { value: `${cars.length}+`, label: 'Vehicles Listed' },
-              { value: '150+', label: 'Point Inspection' },
+              { value: 'On-Spot', label: 'Point Inspection' },
               { value: '100%', label: 'Transparent Pricing' },
-              { value: '24/7', label: 'Support Available' },
+              { value: 'Constant', label: 'Support Available' },
             ].map((stat, i) => (
               <div key={i} className="flex flex-col items-center py-2">
                 <span className="text-2xl sm:text-3xl font-extrabold text-[#3aab5c]">{stat.value}</span>
